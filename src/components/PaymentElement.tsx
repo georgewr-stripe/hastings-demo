@@ -6,7 +6,6 @@ import {
 import { Stripe, StripeElements, StripeError, StripePaymentElementOptions } from "@stripe/stripe-js";
 import { error } from "console";
 import React from "react";
-import { paymentElementOptions } from "./elementConfigs";
 import { Button } from "@tremor/react";
 
 interface Props {

@@ -9,8 +9,6 @@ import {
   StripePaymentElementOptions,
 } from "@stripe/stripe-js";
 import PaymentElement from "./PaymentElement";
-import { ScenarioIds, ScenarioNames } from "@/types/scenarios";
-import { useSession } from "@/hooks/useSession";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK || "", {
   betas: ["blocked_card_brands_beta_2"],
