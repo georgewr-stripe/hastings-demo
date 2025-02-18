@@ -1,5 +1,6 @@
 "use server";
 
+import moment from "moment";
 import useStripe from "./stripe";
 
 const waitForTestClockToAdvance = async (props: { id: string }) => {
@@ -13,10 +14,12 @@ const waitForTestClockToAdvance = async (props: { id: string }) => {
   return;
 };
 
-const advanceTime = async (props: { id: string; date: number }) => {
+const advanceTime = async (props: { id: string; months: number }) => {
   const stripe = await useStripe();
+  const tc = await stripe.testHelpers.testClocks.retrieve(props.id);
+  const frozen_time = moment.unix(tc.frozen_time).add('months', props.months).unix();
   await stripe.testHelpers.testClocks.advance(props.id, {
-    frozen_time: props.date,
+    frozen_time
   });
   await waitForTestClockToAdvance({ id: props.id });
 };

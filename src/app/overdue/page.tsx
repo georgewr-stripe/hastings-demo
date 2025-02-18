@@ -17,6 +17,7 @@ import getPMFromSI from "@/api/getPMFromSI";
 import {
   BREAKDOWN_DATA,
   BUSINESS_BREAKDOWN_COVER_PROD,
+  BUSINESS_CAR_INSURANCE_PROD,
   OVERDUE_AMOUNT,
   OVERDUE_AMOUNT_PROD,
   POLICY,
@@ -24,6 +25,7 @@ import {
 import moment from "moment";
 import subscribeToBreakdown from "@/api/subscribeToBreakdown";
 import Link from "next/link";
+import { set } from "lodash";
 
 interface State {
   loadingPayment: boolean;
@@ -42,20 +44,22 @@ export const Page = () => {
   });
 
   React.useEffect(() => {
-    if (
-      redirectStatus === "succeeded" &&
-      paymentIntentId &&
-      customer &&
-      !customer?.has_breakdown_cover
-    ) {
-      subscribeToBreakdown({
+    if (redirectStatus === "succeeded" && paymentIntentId && customer) {
+      attachPM({
+        payment_method_id: "pm_card_chargeCustomerFail",
         customer_id: customer.id,
-        amount: BREAKDOWN_DATA.amount,
-      }).then((invoice) => {
-        console.log(invoice);
-        setCustomer({ ...customer, has_breakdown_cover: true });
-        setState((prev) => ({ ...prev, loadingInvoice: false }));
-        router.push("/account");
+      }).then((pm) => {
+        createInvoice({
+          customer_id: customer.id,
+          payment_method_id: pm.id,
+          amount: POLICY.amount,
+          product_id: BUSINESS_CAR_INSURANCE_PROD,
+          policy_id: POLICY.id,
+          due: moment().add("months", 6).unix(),
+        }).then((invoice) => {
+          setState((prev) => ({ ...prev, loadingInvoice: false }));
+          router.push("/account");
+        });
       });
     }
   }, [redirectStatus, paymentIntentId, customer]);
@@ -114,9 +118,7 @@ export const Page = () => {
       <div className="flex flex-col">
         <Title>Overdue Amount on Policy</Title>
         <pre>Policy ID: {POLICY.id}</pre>
-        <pre>
-          Overdue Amount: {amountToLocal(OVERDUE_AMOUNT)}
-        </pre>
+        <pre>Overdue Amount: {amountToLocal(OVERDUE_AMOUNT)}</pre>
         <pre></pre>
         <div className="pt-2">
           {state.loadingInvoice ? (
@@ -125,6 +127,7 @@ export const Page = () => {
             <CheckoutElement
               options={{
                 paymentMethodCreation: "manual",
+                setup_future_usage: "off_session",
                 mode: "payment",
                 currency: "gbp",
                 amount: OVERDUE_AMOUNT,

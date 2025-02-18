@@ -7,13 +7,13 @@ import moment from "moment";
 import React from "react";
 
 interface State {
-  time: number;
+  months: number;
   loading: boolean;
 }
 const TimeMachine = () => {
   const { customer } = useSession();
   const [state, setState] = React.useState<State>({
-    time: 12,
+    months: 12,
     loading: false,
   });
 
@@ -22,13 +22,13 @@ const TimeMachine = () => {
       setState((prev) => ({ ...prev, loading: true }));
       advanceTime({
         id: customer.test_clock_id,
-        date: moment().add("months", state.time).unix(),
+        months: state.months,
       }).then(() => {
         setState((prev) => ({ ...prev, loading: false }));
         window.location.reload();
       });
     }
-  }, [customer, state.time]);
+  }, [customer, state.months]);
 
   if (!customer) {
     return <></>;
@@ -39,8 +39,8 @@ const TimeMachine = () => {
         <NumberInput
           disabled={state.loading}
           placeholder="Months"
-          value={state.time}
-          onValueChange={(time) => setState((prev) => ({ ...prev, time }))}
+          value={state.months}
+          onValueChange={(months) => setState((prev) => ({ ...prev, months }))}
         />
         <Button onClick={_advanceTime} loading={state.loading}>
           {state.loading ? "Advancing..." : "Advance"}

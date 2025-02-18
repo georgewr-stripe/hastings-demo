@@ -85,7 +85,7 @@ const InvoiceAccordion = (props: InvoiceAccordianProps) => {
         <div className="flex items-center">
           <Text className="text-md font-bold">Payment Method:</Text>
           <pre className="ml-1">
-            {props.invoice.payment_intent?.payment_method?.type || props.invoice.default_payment_method.type || "N/A"}
+            {props.invoice.payment_intent?.payment_method?.type || props.invoice?.default_payment_method?.type || "N/A"}
           </pre>
         </div>
         <div className="mx-auto max-w-md pt-2">
