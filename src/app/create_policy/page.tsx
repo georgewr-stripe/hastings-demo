@@ -22,7 +22,7 @@ interface State {
   loadingInvoice: boolean;
 }
 
-export const Page = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const redirectStatus = searchParams.get("redirect_status");
