@@ -1,5 +1,5 @@
 "use client";
-import React, { use } from "react";
+import React, { Suspense, use } from "react";
 import Image from "next/image";
 import CTA from "../../components/cta";
 import Login from "@/components/login";
@@ -143,4 +143,11 @@ const Page = () => {
   );
 };
 
-export default Page;
+const SuspensePage = () => {
+    return (
+      <Suspense fallback={<Spinner />}>
+        <Page />
+      </Suspense>
+    );
+  };
+  export default SuspensePage;
