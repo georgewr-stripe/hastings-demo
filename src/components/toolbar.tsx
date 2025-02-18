@@ -17,7 +17,7 @@ const Toolbar: React.FC = () => {
 
   const links: Record<string, { link: string; icon: React.JSX.Element }> =
     React.useMemo(() => {
-      const rest = { "Contact Us": { link: "", icon: <MessagesSquare /> } };
+      const rest = { "Contact Us": { link: "/overdue", icon: <MessagesSquare /> } };
       if (customer?.id) {
         return {
           Account: { link: "/account", icon: <UserRound /> },
