@@ -71,7 +71,7 @@ const Page = () => {
                 product_id: BUSINESS_CAR_INSURANCE_PROD,
                 policy_id: POLICY.id,
                 finalise: false,
-                due: moment().add("years", 1).unix(),
+                due: moment().add(1, 'years').unix(),
               }).then((invoice) => {
                 console.log(invoice);
                 setState((prev) => ({ ...prev, loadingInvoice: false }));

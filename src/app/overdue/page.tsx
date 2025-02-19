@@ -55,7 +55,7 @@ const Page = () => {
           amount: POLICY.amount,
           product_id: BUSINESS_CAR_INSURANCE_PROD,
           policy_id: POLICY.id,
-          due: moment().add("months", 6).unix(),
+          due: moment().add(6, "months").unix(),
         }).then((invoice) => {
           setState((prev) => ({ ...prev, loadingInvoice: false }));
           router.push("/account");
@@ -144,10 +144,10 @@ const Page = () => {
 };
 
 const SuspensePage = () => {
-    return (
-      <Suspense fallback={<Spinner />}>
-        <Page />
-      </Suspense>
-    );
-  };
-  export default SuspensePage;
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Page />
+    </Suspense>
+  );
+};
+export default SuspensePage;
