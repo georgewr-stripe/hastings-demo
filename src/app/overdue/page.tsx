@@ -90,7 +90,9 @@ const Page = () => {
                   clientSecret: invoice.client_secret,
                   confirmParams: {
                     payment_method: pm.id,
-
+                    payment_method_data: {
+                      allow_redisplay: "always",
+                    },
                     return_url: window.location.href,
                   },
                 });

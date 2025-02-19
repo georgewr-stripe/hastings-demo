@@ -71,7 +71,7 @@ const Page = () => {
                 product_id: BUSINESS_CAR_INSURANCE_PROD,
                 policy_id: POLICY.id,
                 finalise: false,
-                due: moment().add(1, 'years').unix(),
+                due: moment().add(1, "years").unix(),
               }).then((invoice) => {
                 console.log(invoice);
                 setState((prev) => ({ ...prev, loadingInvoice: false }));
@@ -109,7 +109,10 @@ const Page = () => {
               stripe
                 .confirmSetup({
                   elements,
-                  confirmParams: { return_url: window.location.href },
+                  confirmParams: {
+                    return_url: window.location.href,
+                    payment_method_data: { allow_redisplay: "always" },
+                  },
                   clientSecret: si.client_secret,
                 })
                 .then((result) => {
@@ -162,7 +165,8 @@ const Page = () => {
               options={{
                 paymentMethodCreation: "manual",
                 setup_future_usage: "off_session",
-                mode: "setup",
+                mode: "subscription",
+                amount: POLICY.amount,
                 currency: "gbp",
               }}
               elementOptions={{ layout: "accordion" }}

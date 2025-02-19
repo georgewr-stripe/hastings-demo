@@ -69,7 +69,7 @@ const Page = () => {
         setState((prev) => ({ ...prev, loadingPayment: true }));
         createInvoice({
           customer_id: customer.id,
-          amount: BREAKDOWN_DATA.amount,
+          amount: 1250,
           policy_id: POLICY.id,
           product_id: BUSINESS_BREAKDOWN_COVER_PROD,
           finalise: true,
@@ -84,6 +84,9 @@ const Page = () => {
                   clientSecret: invoice.client_secret,
                   confirmParams: {
                     payment_method: pm.id,
+                    payment_method_data: {
+                      allow_redisplay: 'always'
+                    },
 
                     return_url: window.location.href,
                   },
@@ -127,7 +130,7 @@ const Page = () => {
         <Title>Add Breakdown Cover to your Policy</Title>
         <pre>Policy ID: {POLICY.id}</pre>
         <pre>
-          Amount: {amountToLocal(BREAKDOWN_DATA.amount)} per {POLICY.freq}
+          Amount Due Today: {amountToLocal(1250)} per {POLICY.freq}
         </pre>
         <pre></pre>
         <div className="pt-2">
@@ -139,7 +142,7 @@ const Page = () => {
                 paymentMethodCreation: "manual",
                 mode: "payment",
                 currency: "gbp",
-                amount: BREAKDOWN_DATA.amount,
+                amount: 1250,
               }}
               elementOptions={{ layout: "accordion" }}
               callback={createPolicy}

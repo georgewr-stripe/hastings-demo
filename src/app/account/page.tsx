@@ -37,12 +37,12 @@ const Page = () => {
     return <Spinner />;
   }
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row-reverse w-full">
+    <div className="flex flex-col gap-4 w-full items-center justify-center">
+      <div className="flex flex-row-reverse">
         <TimeMachine />
       </div>
 
-      <Card className="w-full  p-6">
+      <Card className="py-4 px-8  w-full sm:w-4/5">
         <div className="flex flex-col gap-2 ">
           <div className="flex justify-between items-center">
             <Title>{POLICY.description}</Title>
