@@ -68,9 +68,9 @@ const PaymentElement = (props: Props) => {
         disabled={!stripe}
         loading={props.loading}
         type="submit"
-        className="bg-hastings-green"
+        className="bg-hastings-green focus:bg-green-800"
       >
-        Submit
+        Pay
       </Button>
       </div>
       <span className="mt-2 text-sm text-red-500">{errorMessage}</span>
