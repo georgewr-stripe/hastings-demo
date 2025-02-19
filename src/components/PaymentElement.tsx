@@ -1,9 +1,10 @@
 import {
+  ExpressCheckoutElement,
   PaymentElement as StripePaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { Stripe, StripeElements, StripeError, StripePaymentElementOptions } from "@stripe/stripe-js";
+import { Stripe, StripeElements, StripeError, StripeExpressCheckoutElementConfirmEvent, StripePaymentElementOptions } from "@stripe/stripe-js";
 import { error } from "console";
 import React from "react";
 import { Button } from "@tremor/react";
@@ -25,10 +26,12 @@ const PaymentElement = (props: Props) => {
     setErrorMessage(error.message);
   };
 
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
+  const handleSubmit = async (event: { preventDefault: () => void } | StripeExpressCheckoutElementConfirmEvent) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
-    event.preventDefault();
+    if ('preventDefault' in event) {
+      event.preventDefault();
+    }
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
@@ -58,6 +61,7 @@ const PaymentElement = (props: Props) => {
 
   return (
     <form onSubmit={handleSubmit} >
+      <ExpressCheckoutElement onConfirm={handleSubmit}  />
       <StripePaymentElement options={props.options} />
       <div className="flex flex-row-reverse pt-2">
       <Button
